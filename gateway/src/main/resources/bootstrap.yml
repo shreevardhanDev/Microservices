@@ -1,0 +1,7 @@
+spring:
+   application :
+      name: GATEWAY-SERVICE
+   cloud:
+    config:
+      uri:
+      - http://localhost:8999

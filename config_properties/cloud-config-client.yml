@@ -1,0 +1,11 @@
+server:
+  port: 8981
+  servlet:
+    context-path: /cloud-config-client
+
+spring:
+  profiles:
+    active:
+    - dev
+
+message: Hi lol

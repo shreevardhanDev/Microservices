@@ -1,0 +1,12 @@
+spring:
+  cloud:
+    config:
+      name: ${spring.application.name}, COMMON_DATA_SOURCE, COMMON_PROPERTIES
+      uri:
+      - http://localhost:8999
+  application:
+    name: ORDER-SERVICE
+
+management:
+  endpoints:
+    enabled-by-default: true
