@@ -11,4 +11,4 @@ spring:
       server:
         native:
           search-locations:
-          -  file:///media/shreevardhan/EXT4/Java Projects/Prototypes_testing/config_properties
+          -  file:///media/shreevardhan/EXT4/Java Projects/Prototypes_testing/Microservices/config_properties
