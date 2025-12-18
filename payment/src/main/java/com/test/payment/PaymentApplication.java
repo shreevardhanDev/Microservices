@@ -1,21 +1,19 @@
 package com.test.payment;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
-import org.springframework.context.annotation.Bean;
+import org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-
-import com.kafka.consumers.PaymentConsumer;
 
 @EnableJpaRepositories(basePackages = "com.*")
 @EntityScan(basePackages = "com.*")
-@EnableEurekaClient
+@EnableDiscoveryClient
 @EnableWebMvc
-@EnableKafka
+@EnableAutoConfiguration(exclude = KafkaAutoConfiguration.class)
 @SpringBootApplication
 public class PaymentApplication {
 
@@ -23,9 +21,9 @@ public class PaymentApplication {
 		SpringApplication.run(PaymentApplication.class, args);
 	}
 
-	@Bean
-	PaymentConsumer getPaymentConsumer() {
-		return new PaymentConsumer();
-	}
+//	@Bean
+//	PaymentConsumer getPaymentConsumer() {
+//		return new PaymentConsumer();
+//	}
 
 }

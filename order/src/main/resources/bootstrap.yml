@@ -1,12 +1,13 @@
 spring:
   cloud:
     config:
-      name: ${spring.application.name}, COMMON_DATA_SOURCE, COMMON_PROPERTIES
+      name: ${spring.application.name},COMMON-DATA-SOURCE,COMMON-PROPERTIES,EUREKA-CLIENT-PROP,ZIPKIN-PROP,LOGGER-PROP
       uri:
-      - http://localhost:8999
+      - http://cloud-config-server:8999
   application:
     name: ORDER-SERVICE
 
 management:
   endpoints:
     enabled-by-default: true
+    

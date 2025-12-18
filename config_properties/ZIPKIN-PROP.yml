@@ -1,0 +1,4 @@
+#ZIPKIN_PROP
+spring:
+  zipkin:
+    baseUrl: http://zipkin:9411

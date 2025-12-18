@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    username: postgres
+    password: yamamato
+    url: jdbc:postgresql://192.168.3.104:5432/postgres
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      connection-timeout: 20000
+      minimum-idle: 5
+      maximum-pool-size: 20
+      idle-timeout: 10000
+      max-lifetime: 1000
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true

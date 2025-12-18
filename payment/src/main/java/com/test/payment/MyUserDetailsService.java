@@ -11,8 +11,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.entities.UserDao;
 import com.entities.Users;
+import com.repository.UserDao;
 
 @Service
 public class MyUserDetailsService implements UserDetailsService {
@@ -26,7 +26,7 @@ public class MyUserDetailsService implements UserDetailsService {
 		User userDet = null;
 		try {
 			Users user = userDao.getUserForEmployeeHrmsId(userName);
-			userDet = new User(user.getEmployeeHrmsId(), "{noop}" + user.getPassword(),
+			userDet = new User(user.getEmployeeHrmsId(), user.getPassword(),
 					Arrays.asList(new SimpleGrantedAuthority(user.getRole())));
 		} catch (Exception ex) {
 			throw new UsernameNotFoundException("Not found: " + userName);

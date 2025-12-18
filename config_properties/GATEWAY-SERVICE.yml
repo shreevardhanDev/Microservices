@@ -1,13 +1,5 @@
-server: 
-   port: 8083
-eureka:
-   client: 
-      registerWithEureka: true
-      fetchRegistry: true
-      serviceUrl:
-         defaultZone: http://localhost:8761/eureka/
-   instance:
-      hostname: localhost
+server:
+  port: 8083
 
 management:
   health:
@@ -15,67 +7,61 @@ management:
       enabled: true
     ratelimiters:
       enabled: true
-  endpoints: 
+  endpoints:
     web:
       exposure:
         include:
-        - '*'
+          - "*"
   endpoint:
     health:
       show-details: always
 
-resilience4j:
-  circuitbreaker:
-    configs:
-      default:
-        register-health-indicator: true
-        event-consumer-buffer-size: 10
-        failure-rate-threshold: 50
-        minimum-number-of-calls: 5
-        automatic-transition-from-open-to-half-open-enabled: true
-        wait-duration-in-open-state: 5s
-        permitted-number-of-calls-in-half-open-state: 3
-        sliding-window-size: 10
-        sliding-window-type: count-based
-        slow-call-duration-threshold: 5000
-        slow-call-rate-threshold: 50
-    instances:
-      myCircuitBreaker:
-       baseConfig: default
-
-
-
-
-
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      register-health-indicator: true
+      event-consumer-buffer-size: 10
+      failure-rate-threshold: 50
+      minimum-number-of-calls: 5
+      automatic-transition-from-open-to-half-open-enabled: true
+      wait-duration-in-open-state: 5s
+      permitted-number-of-calls-in-half-open-state: 3
+      sliding-window-size: 10
+      sliding-window-type: count-based
+      slow-call-duration-threshold: 5000
+      slow-call-rate-threshold: 50
+  instances:
+    orderCircuitBreaker:
+      baseConfig: default
 
 spring:
   cloud:
     gateway:
-      routes: 
-        - id: order-service
+      routes:
+        - id: order
           uri: lb://ORDER-SERVICE
           filters:
             - name: CircuitBreaker
               args:
-                name: myCircuitBreaker
+                name: orderCircuitBreaker
                 fallbackUri: forward:/orderFallback
           predicates:
-              - Path=/order/**
-        - id: payment-service
+            - Path=/order/**
+        - id: payment
           uri: lb://PAYMENT-SERVICE
           filters:
             - name: CircuitBreaker
               args:
-                name: myCircuitBreaker
-                fallbackUri: forward:/orderFallback
+                name: orderCircuitBreaker
+                fallbackUri: forward:/paymentFallback
           predicates:
             - Path=/payment/**
-        - id: security-jwt
+        - id: jwtauth
           uri: lb://SECURITY-JWT
           filters:
             - name: CircuitBreaker
               args:
-                name: myCircuitBreaker
-                fallbackUri: forward:/orderFallback
+                name: orderCircuitBreaker
+                fallbackUri: forward:/jwtAuthServiceFallback
           predicates:
             - Path=/jwtauth/**

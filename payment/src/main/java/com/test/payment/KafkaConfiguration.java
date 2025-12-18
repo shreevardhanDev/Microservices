@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
@@ -12,10 +14,15 @@ import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 
-import com.test.order.dto.Payment;
+import com.entities.Payment;
+
+import lombok.val;
 
 @Configuration
 public class KafkaConfiguration {
+	
+	@Value("${kafka.url}")
+	private String remoteBootstrapServersConfig;
 
 //	@Bean
 //	public KafkaTemplate<String, Payment> producerTemplate() {
@@ -42,7 +49,7 @@ public class KafkaConfiguration {
 
 		Map<String, Object> props = new HashMap<>();
 		props.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
-		props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+		props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, this.remoteBootstrapServersConfig);
 		props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
 		props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, deserializer);
 		props.put(ConsumerConfig.GROUP_ID_CONFIG, "consumer1");
@@ -55,7 +62,7 @@ public class KafkaConfiguration {
 
 		Map<String, Object> props = new HashMap<>();
 		props.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
-		props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+		props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, remoteBootstrapServersConfig);
 		props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
 		props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, deserializer);
 		props.put(ConsumerConfig.GROUP_ID_CONFIG, "consumer2");

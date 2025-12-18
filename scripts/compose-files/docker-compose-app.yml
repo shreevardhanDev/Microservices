@@ -1,0 +1,51 @@
+version: '3'
+
+
+services:
+  spring_security_jwt:
+    image: spring-security-jwt
+    container_name: spring-security-jwt
+    restart: on-failure
+    ports:
+      - "8061:8061"
+    networks: 
+      - mynetwork
+
+  gateway:
+    image: gateway
+    container_name: gateway
+    restart: on-failure
+    ports:
+      - "8083:8083"
+    networks: 
+      - mynetwork
+
+
+
+  payment:
+    image: payment
+    container_name: payment
+    restart: on-failure
+    ports:
+      - "8082:8082"
+    networks: 
+      - mynetwork
+
+
+  order:
+    image: order
+    container_name: order
+    restart: on-failure
+    ports:
+      - "8081:8081"
+    depends_on:
+      - payment
+    networks: 
+      - mynetwork
+
+
+networks:
+  mynetwork:
+    external: true
+    
+    

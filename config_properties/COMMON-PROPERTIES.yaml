@@ -1,0 +1,6 @@
+jwt:
+  secret:
+    key: "fuckyou"
+
+kafka:
+  url: "http://kafka_server:9092"

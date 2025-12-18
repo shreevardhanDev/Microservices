@@ -3,19 +3,6 @@ package com.test.order.service;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.RequestEntity;
-import org.springframework.http.ResponseEntity;
-import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
-
 import com.repository.OrderDao;
 import com.test.order.dto.Order;
 import com.test.order.dto.OrderRequest;
@@ -24,73 +11,94 @@ import com.test.order.dto.Payment;
 import com.test.order.dto.PaymentRequest;
 import com.test.order.dto.PaymentResponse;
 import com.test.order.listners.AuditListener;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 @Service
+@Slf4j
+@NoArgsConstructor
+@RequiredArgsConstructor(onConstructor =@__(@Autowired))
 public class OrderService {
 
-	@Autowired
-	private RestTemplate template;
+    @NonNull
+    private RestTemplate template;
 
-	@Autowired
-	private KafkaTemplate<String, Payment> kafkaTemplate;
+    @NonNull
+    private OrderDao orderDao;
 
-	@Autowired
-	private OrderDao orderDao;
+    @Value("${com.test.payment.controller}")
+    private String paymentRest;
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(OrderService.class);
+    //	@Autowired
+    //	private KafkaTemplate<String, Payment> kafkaTemplate;
 
-	private final String paymentService = "http://PAYMENT-SERVICE/payment";
+    //	@RateLimiter()
+    //	@Bulkhead(name = )
+    //	@TimeLimiter(name = "wow", fallbackMethod = "wow")
+    //	@CircuitBreaker(name = "paymentService", fallbackMethod = "fallbackMethodForPayment")
+    //	@Retry(name = "paymentService", fallbackMethod = "fallbackMethodForPayment")
 
-//	@RateLimiter()
-//	@Bulkhead(name = )
-//	@TimeLimiter(name = "wow", fallbackMethod = "wow")
-//	@CircuitBreaker(name = "paymentService", fallbackMethod = "fallbackMethodForPayment")
-//	@Retry(name = "paymentService", fallbackMethod = "fallbackMethodForPayment")
-	
-	
-	@Transactional
-	public OrderResponse createOrder(OrderRequest order) {
-		OrderResponse resp = new OrderResponse();
-		Order or = orderDao.save(order.getOrder());
-		LOGGER.info( order.getPayment().toString());
-		kafkaTemplate.send("payment", order.getPayment());
-		resp.setOrder(or);
-		return resp;
-	}
+    @Transactional
+    public OrderResponse createOrder(OrderRequest order) {
+        OrderResponse resp = new OrderResponse();
+        Order or = orderDao.save(order.getOrder());
+        PaymentRequest req = new PaymentRequest();
+        req.setPayment(order.getPayment());
+        Payment pay = this.doPayment(req);
+        resp.setPayment(pay);
+        resp.setOrder(or);
+        return resp;
+    }
 
-	public Payment doPayment(PaymentRequest request) {
-		String url = this.paymentService + "/createPayment";
-		LOGGER.info("Calling PaymentService");
+    private Payment doPayment(PaymentRequest request) {
+        String url = this.paymentRest + "/createPayment";
+        log.info("Calling PaymentService");
+        Payment pBody = paymentMethod(request, url);
+        return pBody;
+    }
 
-		Payment pBody = paymentMethod(request, url);
-		return pBody;
-	}
+    private Payment paymentMethod(PaymentRequest request, String url) {
+        MultiValueMap<String, String> headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + AuditListener.getJsonWebTocken());
 
-	private Payment paymentMethod(PaymentRequest request, String url) {
-		MultiValueMap<String, String> headers = new HttpHeaders();
-		headers.add("Authorization", "Bearer " + AuditListener.getJsonWebTocken());
-		URI uri = null;
-		try {
-			uri = new URI(url);
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
-		RequestEntity<PaymentRequest> req = new RequestEntity<PaymentRequest>(request, headers, HttpMethod.POST, uri);
+        RequestEntity<PaymentRequest> req = new RequestEntity<PaymentRequest>(request, headers, HttpMethod.POST, getUri(url));
 
-		ResponseEntity<PaymentResponse> pResp = template.exchange(req, PaymentResponse.class);
-		LOGGER.info("Got Response from PaymentService");
-		Payment pBody = pResp.getBody().getPayment();
-		return pBody;
-	}
+        ResponseEntity<PaymentResponse> pResp = template.exchange(req, PaymentResponse.class);
+        log.info("Got Response from PaymentService");
+        Payment pBody = pResp.getBody().getPayment();
+        return pBody;
+    }
 
-	public OrderResponse fallbackMethodForPayment(OrderRequest request, Throwable t) {
+    private URI getUri(String url) {
+        URI uri = null;
+        try {
+            uri = new URI(url);
+        } catch (URISyntaxException e) {
+            log.info("issue with url", e);
+        }
+        return uri;
+    }
 
-		LOGGER.info("Fall Back Method for payment");
-		OrderResponse resp = new OrderResponse();
-		Order or = new Order();
-		or.setDescription("Fall Back Method");
-		resp.setOrder(or);
-		return resp;
-	}
+    //	public OrderResponse fallbackMethodForPayment(OrderRequest request, Throwable t) {
+    //
+    //		log.info("Fall Back Method for payment");
+    //		OrderResponse resp = new OrderResponse();
+    //		Order or = new Order();
+    //		or.setDescription("Fall Back Method");
+    //		resp.setOrder(or);
+    //		return resp;
+    //	}
 
 }

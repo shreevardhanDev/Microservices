@@ -1,0 +1,132 @@
+version: '3'
+
+
+services:
+  zipkin:
+    image: jhipster/jhipster-zipkin
+    container_name: zipkin
+    restart: on-failure
+    ports:
+      - "9411:9411"
+    networks: 
+      - mynetwork
+    network_mode: mynetwork
+
+  eureka-server:
+    image: eureka-server
+    container_name: eureka-server
+    restart: on-failure
+    ports:
+      - "8761:8761"
+    depends_on:
+        - kafka
+        - zipkin
+    networks: 
+      - mynetwork
+    network_mode: mynetwork
+
+  cloud-config-servier:
+    image: cloud-config-servier
+    container_name: cloud-config-servier
+    restart: on-failure
+    ports:
+      - "8999:8999"
+    depends_on:
+      - eureka-server
+    networks: 
+      - mynetwork
+    network_mode: mynetwork
+
+  spring-security-jwt:
+    image: spring-security-jwt
+    container_name: spring-security-jwt
+    restart: on-failure
+    ports:
+      - "8061:8061"
+    depends_on:
+      - cloud-config-servier
+    networks: 
+      - mynetwork
+    network_mode: mynetwork
+
+  gateway:
+    image: gateway
+    container_name: gateway
+    restart: on-failure
+    ports:
+      - "8083:8083"
+    depends_on:
+      - cloud-config-servier
+    networks: 
+      - mynetwork
+    network_mode: mynetwork
+
+
+  payment:
+    image: payment
+    container_name: payment
+    restart: on-failure
+    ports:
+      - "8082:8082"
+    depends_on:
+      - kafka
+      - cloud-config-servier
+    networks: 
+      - mynetwork
+    network_mode: mynetwork
+
+  order:
+    image: order
+    container_name: order
+    restart: on-failure
+    ports:
+      - "8081:8081"
+    depends_on:
+      - kafka
+      - payment
+    networks: 
+      - mynetwork
+    network_mode: mynetwork
+
+  zookeeper:
+    image: zookeeper:3.6.2
+    restart: on-failure
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    networks: 
+      - mynetwork
+    network_mode: mynetwork
+    healthcheck:
+      test: 'echo stat | nc -z localhost 2181'
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  kafka:
+    image: confluentinc/cp-kafka:6.0.0
+    container_name: kafka
+    restart: on-failure
+    ports:
+      - "9092:9092"
+    environment:
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
+      - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+    depends_on:
+      - zookeeper
+    networks: 
+      - mynetwork
+    network_mode: mynetwork
+    healthcheck:
+      test: 'nc -z localhost 9092'
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+
+
+networks:
+  mynetwork:
+    driver: bridge
+    

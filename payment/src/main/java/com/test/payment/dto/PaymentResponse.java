@@ -2,7 +2,7 @@ package com.test.payment.dto;
 
 import java.io.Serializable;
 
-import com.test.order.dto.Payment;
+import com.entities.Payment;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

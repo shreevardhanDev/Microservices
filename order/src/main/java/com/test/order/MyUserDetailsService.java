@@ -26,7 +26,7 @@ public class MyUserDetailsService implements UserDetailsService {
 		User userDet = null;
 		try {
 			Users user = userDao.getUserForEmployeeHrmsId(userName);
-			userDet = new User(user.getEmployeeHrmsId(), "{noop}" + user.getPassword(),
+			userDet = new User(user.getEmployeeHrmsId(), user.getPassword(),
 					Arrays.asList(new SimpleGrantedAuthority(user.getRole())));
 		} catch (Exception ex) {
 			throw new UsernameNotFoundException("Not found: " + userName);

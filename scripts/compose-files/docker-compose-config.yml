@@ -1,0 +1,26 @@
+version: '3'
+
+
+services:
+
+  eureka_server:
+    image: eureka-server
+    container_name: eureka-server
+    restart: on-failure
+    ports:
+      - "8761:8761"
+    networks: 
+      - mynetwork
+
+  cloud_configserver:
+    image: cloud-config-servier
+    container_name: cloud-config-server
+    restart: on-failure
+    ports:
+      - "8999:8999"
+    networks: 
+      - mynetwork
+
+networks:
+  mynetwork:
+    external: true

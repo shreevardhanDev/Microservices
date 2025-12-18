@@ -1,0 +1,9 @@
+#EUREKA_CLIENT_PROP
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://192.168.3.104:8761/eureka
+  instance:
+    hostname: 192.168.3.104

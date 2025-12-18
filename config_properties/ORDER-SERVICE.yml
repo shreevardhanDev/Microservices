@@ -1,14 +1,5 @@
-
 server:
   port: 8081
-eureka:
-  client: 
-    registerWithEureka: true
-    fetchRegistry: true
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
-  instance:
-    hostname: localhost
 
 management:
   health:
@@ -25,22 +16,8 @@ management:
     health:
       show-details: always
 
-#
-#resilience4j:
-#  timelimiter:
-#    instances:
-#      paymentService:
-#        timeout-duration: 3000
-#  circuitbreaker:
-#    instances:
-#      paymentService:
-#        register-health-indicator: true
-#        ring-buffer-size-in-closed-state: 5
-#        wait-duration-in-open-state: 50s
-#        failure-rate-threshold: 50
-#        event-consumer-buffer-size: 10
-#        slow-call-duration-threshold: 5000
-#        record-exceptions:
-#          - java.lang.IllegalStateException
-#          
-#
+     
+com:
+  test:
+    payment:
+      controller: "http://PAYMENT-SERVICE/payment"
