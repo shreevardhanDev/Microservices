@@ -1,0 +1,4 @@
+# Only enforce LF where it matters
+*.sh        text eol=lf
+gradlew     text eol=lf
+Dockerfile  text eol=lf

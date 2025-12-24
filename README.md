@@ -4,6 +4,15 @@ change data source url to local ipconfig url on COMMON-DATA-SOURCE.yml
 use sh build.sh etc in the scripts folder.
 in order service we have initial database scripts to run in database
 
+in case of issues with running shell scripts due to line ending issues.
+
+dos2unix $(find . -type f -name "*.sh")
+dos2unix $(find . -type f -name "*Dockerfile")
+git config --global core.autocrlf input
+git add --renormalize $(find . -name "*.sh" "*Dockerfile")
+
+
+
 add 
 host    all             all             0.0.0.0/0               md5
 in pg_hba.conf in the postgressql data folder to make it work. and restart system
