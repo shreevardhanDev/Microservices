@@ -2,7 +2,7 @@ spring:
   datasource:
     username: postgres
     password: yamamato
-    url: jdbc:postgresql://192.168.3.104:5432/postgres
+    url: jdbc:postgresql://postgres:5432/postgres
     driver-class-name: org.postgresql.Driver
     hikari:
       connection-timeout: 20000

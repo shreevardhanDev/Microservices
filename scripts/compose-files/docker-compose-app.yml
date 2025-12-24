@@ -1,6 +1,3 @@
-version: '3'
-
-
 services:
   spring_security_jwt:
     image: spring-security-jwt

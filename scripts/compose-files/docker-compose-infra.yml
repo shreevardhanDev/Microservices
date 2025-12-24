@@ -1,6 +1,3 @@
-version: '3'
-
-
 services:
   zipkin_server:
     image: jhipster/jhipster-zipkin

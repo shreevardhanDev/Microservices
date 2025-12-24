@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM eclipse-temurin:22.0.2_9-jre
+FROM eclipse-temurin:25-jre-jammy
 WORKDIR /app
 
 COPY build/libs/ target

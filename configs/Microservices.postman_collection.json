@@ -1,0 +1,204 @@
+{
+	"info": {
+		"_postman_id": "6c31b38b-bab8-4a25-a433-a7e63ee3b25a",
+		"name": "Microservices",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6980709"
+	},
+	"item": [
+		{
+			"name": "Authenticate",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"username\": \"shree\",\n   \"password\": \"shree\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8061/jwtauth/authenticate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8061",
+					"path": [
+						"jwtauth",
+						"authenticate"
+					]
+				},
+				"description": "Generated from cURL: curl --location 'http://localhost:8083/jwtauth/authenticate' `\n--header 'Content-Type: application/json' `\n--data '{\n   \"username\": \"shree\",\n   \"password\": \"shree\"\n}'"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Order",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{JWT_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{JWT_TOKEN}}",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"order\": {\n        \"description\": \"working\"\n    },\n    \"payment\": {\n        \"transactionId\": 1,\n        \"amount\": 2321.00,\n        \"description\": \"testing\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8083/order/createOrder",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"order",
+						"createOrder"
+					]
+				},
+				"description": "Generated from cURL: curl --location 'http://localhost:8083/order/createOrder' `\n--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzaHJlZSIsImV4cCI6MTcyNDc3Njg3MiwiaWF0IjoxNzI0Nzc1MDcyfQ.FMF87tikrY2okJrmoCR2ijgp-y8LZe3xelAMZPhx_Hw' `\n--header 'Content-Type: application/json' `\n--data '{\n    \"order\": {\n        \"description\": \"working\"\n    },\n    \"payment\": {\n        \"transactionId\": 4,\n        \"amount\": 2321.00,\n        \"description\": \"testing\"\n    }\n}'"
+			},
+			"response": []
+		},
+		{
+			"name": "Create payment",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{JWT_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{JWT_TOKEN}}",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"payment\": {\n        \"transactionId\": 4,\n        \"amount\": 2321.00,\n        \"description\": \"testing\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8083/payment/createPayment",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"payment",
+						"createPayment"
+					]
+				},
+				"description": "Generated from cURL: curl --location 'http://localhost:8083/payment/createPayment' `\n--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzaHJlZSIsImV4cCI6MTcyNDc3Njg3MiwiaWF0IjoxNzI0Nzc1MDcyfQ.FMF87tikrY2okJrmoCR2ijgp-y8LZe3xelAMZPhx_Hw' `\n--header 'Content-Type: application/json' `\n--data '{\n    \"payment\": {\n        \"transactionId\": 4,\n        \"amount\": 2321.00,\n        \"description\": \"testing\"\n    }\n}'"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					"const loginRequest = {",
+					"  url: 'http://localhost:8061/jwtauth/authenticate',",
+					"  method: 'POST',",
+					"  header: {",
+					"    'Content-Type': 'application/json'",
+					"  },",
+					"  body: {",
+					"    mode: 'raw',",
+					"    raw: JSON.stringify({",
+					"      // Pulling from environment variables",
+					"      \"username\": pm.environment.get(\"username\"), ",
+					"      \"password\": pm.environment.get(\"password\")",
+					"    })",
+					"  }",
+					"};",
+					"",
+					"// Send the request before the main call starts",
+					"pm.sendRequest(loginRequest, (error, response) => {",
+					"    if (error) {",
+					"        console.error(\"Login failed:\", error);",
+					"    } else {",
+					"        try {",
+					"            const jsonData = response.json();",
+					"            const token = jsonData.jwt;",
+					"            ",
+					"            if (token) {",
+					"                pm.environment.set(\"JWT_TOKEN\", token);",
+					"                console.log(\"Pre-request login successful for user: \" + pm.environment.get(\"DB_USERNAME\"));",
+					"            } else {",
+					"                console.error(\"Login response did not contain a JWT.\");",
+					"            }",
+					"        } catch (e) {",
+					"            console.error(\"Could not parse login response:\", e);",
+					"        }",
+					"    }",
+					"});"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
