@@ -8,6 +8,21 @@ services:
     networks: 
       - mynetwork
 
+  splunk:
+    image: splunk/splunk:latest
+    container_name: splunk
+    environment:
+      # This is the NEW variable you are missing
+      - SPLUNK_GENERAL_TERMS=--accept-sgt-current-at-splunk-com
+      # This is the standard license acceptance
+      - SPLUNK_START_ARGS=--accept-license
+      - SPLUNK_PASSWORD=yamamato
+    ports:
+      - "8000:8000" # Web UI
+      - "8088:8088" # HEC (for your Spring Boot logs)
+    networks:
+      - mynetwork
+
   # zookeeper:
   #   image: zookeeper:3.6.2
   #   restart: on-failure

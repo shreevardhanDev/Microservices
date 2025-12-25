@@ -2,7 +2,7 @@ Install gradle 9.0
 java 25
 
 database creation in docker
-docker run --name postgres -e POSTGRES_PASSWORD=yamamato -p 5432:5432 -v /media/shreevardhan/D/databases/postgres/Microservices/data:/var/lib/postgresql/data -d postgres
+docker run --name postgres --network mynetwork -e POSTGRES_PASSWORD=yamamato -p 5432:5432 -v /media/shreevardhan/D/databases/postgres/Microservices/data:/var/lib/postgresql/data -d postgres
 
 
 change data source url to local ipconfig url on COMMON-DATA-SOURCE.yml

@@ -20,6 +20,9 @@ configurations {
 
 repositories {
 	mavenCentral()
+		maven {
+        url "https://splunk.jfrog.io/splunk/ext-releases-local"
+    }
 }
 
 ext {
@@ -54,6 +57,11 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-zipkin:2.2.8.RELEASE'
 	implementation 'io.zipkin.java:zipkin-autoconfigure:2.12.9'
 	implementation 'org.springframework.kafka:spring-kafka:2.8.5'
+	
+	    implementation 'com.splunk.logging:splunk-library-javalogging:1.11.8'
+    
+    // Standard Spring Boot starter for logging (usually included by default)
+    implementation 'org.springframework.boot:spring-boot-starter-logging'
 
 }
 

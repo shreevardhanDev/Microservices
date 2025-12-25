@@ -3,6 +3,8 @@ package com.test.order.service;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.repository.OrderDao;
 import com.test.order.dto.Order;
 import com.test.order.dto.OrderRequest;
@@ -40,6 +42,18 @@ public class OrderService {
 
     @Value("${com.test.payment.controller}")
     private String paymentRest;
+    
+	@Autowired
+	private ObjectMapper objectMapper;
+
+    public String toJson(Object object) {
+        try {
+            return objectMapper.writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            log.error("Error converting object to JSON for Splunk: {}", e.getMessage());
+            return "{ \"error\": \"Serialization failed\" }"; 
+        }
+    }
 
     //	@Autowired
     //	private KafkaTemplate<String, Payment> kafkaTemplate;
@@ -54,6 +68,7 @@ public class OrderService {
     public OrderResponse createOrder(OrderRequest order) {
         OrderResponse resp = new OrderResponse();
         Order or = orderDao.save(order.getOrder());
+        log.info(toJson(order));
         PaymentRequest req = new PaymentRequest();
         req.setPayment(order.getPayment());
         Payment pay = this.doPayment(req);
@@ -64,7 +79,6 @@ public class OrderService {
 
     private Payment doPayment(PaymentRequest request) {
         String url = this.paymentRest + "/createPayment";
-        log.info("Calling PaymentService");
         Payment pBody = paymentMethod(request, url);
         return pBody;
     }
@@ -76,7 +90,6 @@ public class OrderService {
         RequestEntity<PaymentRequest> req = new RequestEntity<PaymentRequest>(request, headers, HttpMethod.POST, getUri(url));
 
         ResponseEntity<PaymentResponse> pResp = template.exchange(req, PaymentResponse.class);
-        log.info("Got Response from PaymentService");
         Payment pBody = pResp.getBody().getPayment();
         return pBody;
     }
@@ -86,7 +99,7 @@ public class OrderService {
         try {
             uri = new URI(url);
         } catch (URISyntaxException e) {
-            log.info("issue with url", e);
+            log.error("issue with url", e);
         }
         return uri;
     }

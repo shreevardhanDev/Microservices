@@ -19,6 +19,9 @@ configurations {
 
 repositories {
 	mavenCentral()
+	maven {
+        url "https://splunk.jfrog.io/splunk/ext-releases-local"
+    }
 }
 
 ext {
@@ -63,6 +66,11 @@ dependencies {
 	
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    
+    implementation 'com.splunk.logging:splunk-library-javalogging:1.11.8'
+    
+    // Standard Spring Boot starter for logging (usually included by default)
+    implementation 'org.springframework.boot:spring-boot-starter-logging'
 	
 	
 }

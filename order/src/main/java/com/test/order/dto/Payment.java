@@ -23,5 +23,7 @@ public class Payment implements Serializable {
 	private Long transctionId;
 
 	private Double amount;
+	
+	private String description;
 
 }

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener" />
+
+    <springProperty scope="context" name="splunkUrl" source="splunk.hec.url" defaultValue="https://splunk:8088"/>
+    <springProperty scope="context" name="splunkToken" source="splunk.hec.token" defaultValue="c29af555-5074-47de-a4e9-0c506713e92d"/>
+    <springProperty scope="context" name="splunkIndex" source="splunk.hec.index" defaultValue="main"/>
+    <springProperty scope="context" name="appName" source="spring.application.name" defaultValue="unknown-app"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] [%X{traceId:-}, %X{spanId:-}] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="SPLUNK" class="com.splunk.logging.HttpEventCollectorLogbackAppender">
+        <url>${splunkUrl}</url>
+        <token>${splunkToken}</token>
+        <index>${splunkIndex}</index>
+        <batch_size_count>1</batch_size_count>  <send_mode>sequential</send_mode>
+        
+        <source>${appName}</source>
+        <sourcetype>_json</sourcetype>
+        <disableCertificateValidation>true</disableCertificateValidation>
+        
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>{"trace":"%X{traceId:-0}","span":"%X{spanId:-0}","level":"%p","logger":"%logger","data":%msg}%n</pattern>
+        </layout>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="SPLUNK" />
+    </root>
+</configuration>

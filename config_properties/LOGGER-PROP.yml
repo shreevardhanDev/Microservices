@@ -1,4 +1,4 @@
-#LOGGER_PROP
+##LOGGER_PROP
 logging:
   level:
     root:  INFO
@@ -8,3 +8,26 @@ logging:
   file:
     name: logs/logfile.log
   
+
+
+splunk:
+  hec:
+    url: https://splunk:8088
+    token: c29af555-5074-47de-a4e9-0c506713e92d
+    index: main
+
+#logging:
+#  level:
+#    root: INFO
+#    org.springframework: WARN
+#    org.springframework.boot: WARN
+#	# Silence common noisy startup components
+#    org.hibernate: WARN
+#    com.zaxxer.hikari: WARN
+#	# Keep your specific application logs at INFO
+#    com.test.order: INFO
+#    com.test.payment: INFO
+#  pattern:
+#    # Your existing pattern with TraceId/SpanId support
+#    console: "%-5level %d{HH:mm:ss.SSS} [%thread] [${spring.zipkin.service.name: ${spring.application.name:}},TraceId: %X{traceId:-}, SpanId: %X{spanId:-}] %logger{36}  : %msg%n"
+#
