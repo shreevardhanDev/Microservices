@@ -1,4 +1,12 @@
-#ZIPKIN_PROP
-spring:
+management:
+  tracing:
+    sampling:
+      probability: 1.0  # Send 100% of traces for testing
   zipkin:
-    baseUrl: http://zipkin:9411
+    tracing:
+      # Use /api/v2/spans for Spring Boot 3.x
+      endpoint: http://zipkin:9411/api/v2/spans
+  endpoints:
+    web:
+      exposure:
+        include: health,info,tracing # Optional: exposes tracing info in Actuator

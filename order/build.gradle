@@ -39,7 +39,6 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	
-	implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
 	implementation 'org.springframework.cloud:spring-cloud-starter-config'
 	implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -55,8 +54,6 @@ dependencies {
 	implementation 'io.github.resilience4j:resilience4j-spring-boot2:1.7.0'
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
 	implementation 'io.github.resilience4j:resilience4j-timelimiter:1.7.1'
-	implementation 'org.springframework.cloud:spring-cloud-starter-zipkin:2.2.8.RELEASE'
-	implementation 'io.zipkin.java:zipkin-autoconfigure:2.12.9'
 	implementation 'org.springframework.kafka:spring-kafka:2.8.5'
 	
 	testImplementation 'org.testcontainers:junit-jupiter:1.16.3'
@@ -71,6 +68,12 @@ dependencies {
     
     // Standard Spring Boot starter for logging (usually included by default)
     implementation 'org.springframework.boot:spring-boot-starter-logging'
+    
+    // 1. The Bridge: Connects Micrometer to the Tracer (Brave)
+        implementation "io.micrometer:micrometer-tracing-bridge-brave"
+        
+        // 2. The Reporter: Sends the traces to the Zipkin server
+        implementation "io.zipkin.reporter2:zipkin-reporter-brave"
 	
 	
 }

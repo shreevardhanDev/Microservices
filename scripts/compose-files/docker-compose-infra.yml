@@ -1,12 +1,37 @@
 services:
   zipkin_server:
-    image: jhipster/jhipster-zipkin
+    image: openzipkin/zipkin:latest
     container_name: zipkin
     restart: on-failure
+#    depends_on:
+#      elasticsearch:
+#        condition: service_healthy
     ports:
       - "9411:9411"
+    environment:
+#      - STORAGE_TYPE=elasticsearch
+#      - ES_HOSTS=http://elasticsearch:9200
+      - STORAGE_TYPE=mem
+      - JAVA_OPTS=-Xms128m -Xmx256m
     networks: 
       - mynetwork
+
+#  elasticsearch:
+#      image: docker.elastic.co/elasticsearch/elasticsearch:8.15.0
+#      container_name: elasticsearch
+#      environment:
+#        - discovery.type=single-node
+#        - xpack.security.enabled=false
+#        - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+#      ports:
+#        - "9200:9200"
+#      healthcheck:
+#        test: ["CMD-SHELL", "curl -s http://localhost:9200/_cluster/health | grep -q 'status.*green\\|yellow'"]
+#        interval: 10s
+#        timeout: 5s
+#        retries: 5
+#      networks: 
+#        - mynetwork
 
   splunk:
     image: splunk/splunk:latest
