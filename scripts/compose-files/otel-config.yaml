@@ -1,0 +1,37 @@
+receivers:
+  otlp:
+    protocols:
+      http:
+        endpoint: 0.0.0.0:4318
+      grpc:
+        endpoint: 0.0.0.0:4317
+
+processors:
+  batch: # Groups data to improve network performance
+
+exporters:
+  # 1. Send traces to your existing Zipkin
+  zipkin:
+    endpoint: "http://zipkin:9411/api/v2/spans"
+
+  # 2. Send data to Splunk HEC
+  splunk_hec:
+    endpoint: "https://splunk:8088/services/collector"
+    token: "068f0886-4669-4624-bbe5-078dfa5769ed" # Your token from earlier
+    index: "main"
+    source: "otel"
+    # Note: Use tls: insecure: true if testing locally without HTTPS
+    tls:
+      insecure: false
+      insecure_skip_verify: true
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [zipkin, splunk_hec]
+    logs:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [splunk_hec]

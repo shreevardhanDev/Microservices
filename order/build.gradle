@@ -64,16 +64,18 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
     
-    implementation 'com.splunk.logging:splunk-library-javalogging:1.11.8'
-    
     // Standard Spring Boot starter for logging (usually included by default)
     implementation 'org.springframework.boot:spring-boot-starter-logging'
     
-    // 1. The Bridge: Connects Micrometer to the Tracer (Brave)
-        implementation "io.micrometer:micrometer-tracing-bridge-brave"
-        
-        // 2. The Reporter: Sends the traces to the Zipkin server
-        implementation "io.zipkin.reporter2:zipkin-reporter-brave"
+    // ADD THESE (Universal OpenTelemetry)
+	// 1. The Bridge: Connects Micrometer Observation API to OpenTelemetry
+	implementation 'io.micrometer:micrometer-tracing-bridge-otel'
+	
+	// 2. The Exporter: Sends the data to your OTel Collector via OTLP
+	implementation 'io.opentelemetry:opentelemetry-exporter-otlp'
+	
+	// 3. (Recommended) Helps OTel capture more details about your Spring app
+	implementation 'io.opentelemetry.instrumentation:opentelemetry-logback-appender-1.0:2.23.0-alpha'
 	
 	
 }

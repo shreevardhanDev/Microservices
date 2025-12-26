@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM eclipse-temurin:25-jre-jammy
+FROM ibm-semeru-runtimes:open-jdk-25.0.1_8-jre-jammy
 WORKDIR /app
 
 COPY build/libs/ target

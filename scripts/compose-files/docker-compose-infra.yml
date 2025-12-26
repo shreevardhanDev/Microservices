@@ -1,4 +1,17 @@
 services:
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:latest
+    container_name: otel-collector
+    command: ["--config=/etc/otelcol/config.yaml"]
+    volumes:
+      - ./otel-config.yaml:/etc/otelcol/config.yaml
+    ports:
+      - "4317:4317" # OTLP gRPC
+      - "4318:4318" # OTLP HTTP
+    networks:
+      - mynetwork
+
   zipkin_server:
     image: openzipkin/zipkin:latest
     container_name: zipkin
@@ -16,71 +29,27 @@ services:
     networks: 
       - mynetwork
 
-#  elasticsearch:
-#      image: docker.elastic.co/elasticsearch/elasticsearch:8.15.0
-#      container_name: elasticsearch
-#      environment:
-#        - discovery.type=single-node
-#        - xpack.security.enabled=false
-#        - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-#      ports:
-#        - "9200:9200"
-#      healthcheck:
-#        test: ["CMD-SHELL", "curl -s http://localhost:9200/_cluster/health | grep -q 'status.*green\\|yellow'"]
-#        interval: 10s
-#        timeout: 5s
-#        retries: 5
-#      networks: 
-#        - mynetwork
-
   splunk:
     image: splunk/splunk:latest
     container_name: splunk
+    user: root
     environment:
       # This is the NEW variable you are missing
       - SPLUNK_GENERAL_TERMS=--accept-sgt-current-at-splunk-com
       # This is the standard license acceptance
       - SPLUNK_START_ARGS=--accept-license
       - SPLUNK_PASSWORD=yamamato
+      - SPLUNK_LAUNCH_CONF=OPTIMISTIC_ABOUT_FILE_LOCKING=1
     ports:
       - "8000:8000" # Web UI
       - "8088:8088" # HEC (for your Spring Boot logs)
+    volumes:
+      - /home/shreevardhan/splunk/Microservices/etc:/opt/splunk/etc
+      - /home/shreevardhan/splunk/Microservices/var:/opt/splunk/var
     networks:
       - mynetwork
 
-  # zookeeper:
-  #   image: zookeeper:3.6.2
-  #   restart: on-failure
-  #   container_name: zookeeper
-  #   ports:
-  #     - "2181:2181"
-  #   networks: 
-  #     - mynetwork
-  #   healthcheck:
-  #     test: 'echo stat | nc -z localhost 2181'
-  #     interval: 30s
-  #     timeout: 5s
-  #     retries: 3
 
-  # kafka:
-  #   image: confluentinc/cp-kafka:6.0.0
-  #   container_name: kafka
-  #   restart: on-failure
-  #   ports:
-  #     - "9092:9092"
-  #   environment:
-  #     - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
-  #     - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092
-  #     - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
-  #   depends_on:
-  #     - zookeeper
-  #   networks: 
-  #     - mynetwork
-  #   healthcheck:
-  #     test: 'nc -z localhost 9092'
-  #     interval: 30s
-  #     timeout: 5s
-  #     retries: 3
 
 networks:
   mynetwork:
