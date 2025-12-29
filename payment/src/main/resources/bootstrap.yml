@@ -2,7 +2,6 @@ spring:
   cloud:
     config:
       name: ${spring.application.name},common-data-source,common-properties,eureka-client-prop,zipkin-prop,logger-prop
-      uri:
-      - http://cloud-config-servier
+      uri: http://cloud-config-servier
   application:
     name: payment-service

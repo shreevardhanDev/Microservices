@@ -1,3 +1,15 @@
 server:
   port: 8082
-
+  
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # This is the only line they really need!
+          issuer-uri: http://keycloak-service:7080/realms/prototype-realm
+          jwk-set-uri: http://keycloak-service:7080/realms/prototype-realm/protocol/openid-connect/certs
+          # Add this to bypass the "aud" check in YAML instead of Java code
+          audiences: 
+            - account
+            - spring-boot-app

@@ -1,17 +1,15 @@
 server:
   port: 8083
+  forward-headers-strategy: framework
 
 management:
   health:
     circuitbreakers:
       enabled: true
-    ratelimiters:
-      enabled: true
   endpoints:
     web:
       exposure:
-        include:
-          - "*"
+        include: "*"
   endpoint:
     health:
       show-details: always
@@ -20,48 +18,75 @@ resilience4j.circuitbreaker:
   configs:
     default:
       register-health-indicator: true
-      event-consumer-buffer-size: 10
       failure-rate-threshold: 50
       minimum-number-of-calls: 5
-      automatic-transition-from-open-to-half-open-enabled: true
       wait-duration-in-open-state: 5s
-      permitted-number-of-calls-in-half-open-state: 3
       sliding-window-size: 10
-      sliding-window-type: count-based
-      slow-call-duration-threshold: 5000
-      slow-call-rate-threshold: 50
   instances:
     orderCircuitBreaker:
-      baseConfig: default
+      base-config: default
 
 spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://keycloak-service:7080/realms/prototype-realm/protocol/openid-connect/certs
+          audiences:
+            - account
+            - spring-boot-app
+      client:
+        registration:
+          my-keycloak:
+            provider: my-keycloak
+            client-id: spring-boot-app
+            client-secret: VqNrk384VYN2qdGKF1bk2tjv3uFfDdgE
+            scope:
+              - openid
+              - profile
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+        provider:
+          my-keycloak:
+            issuer-uri: http://keycloak-service:7080/realms/prototype-realm
+
   cloud:
     gateway:
-      routes:
-        - id: order
-          uri: http://order-service
-          filters:
-            - name: CircuitBreaker
-              args:
-                name: orderCircuitBreaker
-                fallbackUri: forward:/orderFallback
-          predicates:
-            - Path=/order/**
-        - id: payment
-          uri: http://payment-service
-          filters:
-            - name: CircuitBreaker
-              args:
-                name: orderCircuitBreaker
-                fallbackUri: forward:/paymentFallback
-          predicates:
-            - Path=/payment/**
-        - id: jwtauth
-          uri: http://security-jwt
-          filters:
-            - name: CircuitBreaker
-              args:
-                name: orderCircuitBreaker
-                fallbackUri: forward:/jwtAuthServiceFallback
-          predicates:
-            - Path=/jwtauth/**
+      server:
+        webflux:
+          forwarded:
+            enabled: true
+          routes:
+            - id: order
+              uri: http://order-service
+              predicates:
+                - Path=/order/**
+                - Method=GET,POST,PUT,DELETE
+              filters:
+                - TokenRelay=
+                - name: CircuitBreaker
+                  args:
+                    name: orderCircuitBreaker
+                    fallbackUri: forward:/orderFallback
+            - id: payment
+              uri: http://payment-service
+              predicates:
+                - Path=/payment/**
+                - Method=GET,POST,PUT,DELETE
+              filters:
+                - TokenRelay=
+                - name: CircuitBreaker
+                  args:
+                    name: orderCircuitBreaker
+                    fallbackUri: forward:/paymentFallback
+            - id: jwtauth
+              uri: http://security-jwt
+              predicates:
+                - Path=/jwtauth/**
+              filters:
+                - TokenRelay=
+                - name: CircuitBreaker
+                  args:
+                    name: orderCircuitBreaker
+                    fallbackUri: forward:/jwtAuthServiceFallback
+

@@ -12,6 +12,12 @@ docker run -d \
   postgres
 
 
+
+docker exec -i postgres pg_dump -U postgres --format=c --large-objects --encoding "UTF8" --no-owner --no-privileges --no-tablespaces --verbose --schema "keycloak" postgres > /home/shreevardhan/Documents/keycloak.backup
+
+docker exec -i postgres pg_dump -U postgres --format=c --large-objects --encoding "UTF8" --no-owner --no-privileges --no-tablespaces --verbose --schema "public" postgres > /home/shreevardhan/Documents/public.backup
+
+
 change data source url to local ipconfig url on COMMON-DATA-SOURCE.yml
 use sh build.sh etc in the scripts folder.
 in order service we have initial database scripts to run in database

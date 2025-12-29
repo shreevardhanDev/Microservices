@@ -67,6 +67,10 @@ dependencies {
 	
 	// 3. (Recommended) Helps OTel capture more details about your Spring app
 	implementation 'io.opentelemetry.instrumentation:opentelemetry-logback-appender-1.0:2.23.0-alpha'
+	
+		implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+		    // JWT support
+implementation 'org.springframework.security:spring-security-oauth2-jose:6.5.7'
 
 
 }

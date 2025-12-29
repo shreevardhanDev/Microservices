@@ -1,54 +1,72 @@
 services:
 
-  otel-collector:
-    image: otel/opentelemetry-collector-contrib:latest
-    container_name: otel-collector
-    command: ["--config=/etc/otelcol/config.yaml"]
-    volumes:
-      - ./otel-config.yaml:/etc/otelcol/config.yaml
-    ports:
-      - "4317:4317" # OTLP gRPC
-      - "4318:4318" # OTLP HTTP
-    networks:
-      - mynetwork
+#  otel-collector:
+#    image: otel/opentelemetry-collector-contrib:latest
+#    container_name: otel-collector
+#    command: ["--config=/etc/otelcol/config.yaml"]
+#    volumes:
+#      - ./otel-config.yaml:/etc/otelcol/config.yaml
+#    ports:
+#      - "4317:4317" # OTLP gRPC
+#      - "4318:4318" # OTLP HTTP
+#    networks:
+#      - mynetwork
+#
+#  zipkin_server:
+#    image: openzipkin/zipkin:latest
+#    container_name: zipkin
+#    restart: on-failure
+##    depends_on:
+##      elasticsearch:
+##        condition: service_healthy
+#    ports:
+#      - "9411:9411"
+#    environment:
+##      - STORAGE_TYPE=elasticsearch
+##      - ES_HOSTS=http://elasticsearch:9200
+#      - STORAGE_TYPE=mem
+#      - JAVA_OPTS=-Xms128m -Xmx256m
+#    networks: 
+#      - mynetwork
+#
+#  splunk:
+#    image: splunk/splunk:latest
+#    container_name: splunk
+#    user: root
+#    environment:
+#      # This is the NEW variable you are missing
+#      - SPLUNK_GENERAL_TERMS=--accept-sgt-current-at-splunk-com
+#      # This is the standard license acceptance
+#      - SPLUNK_START_ARGS=--accept-license
+#      - SPLUNK_PASSWORD=yamamato
+#      - SPLUNK_LAUNCH_CONF=OPTIMISTIC_ABOUT_FILE_LOCKING=1
+#    ports:
+#      - "8000:8000" # Web UI
+#      - "8088:8088" # HEC (for your Spring Boot logs)
+#    volumes:
+#      - /home/shreevardhan/splunk/Microservices/etc:/opt/splunk/etc
+#      - /home/shreevardhan/splunk/Microservices/var:/opt/splunk/var
+#    networks:
+#      - mynetwork
 
-  zipkin_server:
-    image: openzipkin/zipkin:latest
-    container_name: zipkin
-    restart: on-failure
-#    depends_on:
-#      elasticsearch:
-#        condition: service_healthy
-    ports:
-      - "9411:9411"
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0.0
+    container_name: keycloak-service
+    command: start-dev
     environment:
-#      - STORAGE_TYPE=elasticsearch
-#      - ES_HOSTS=http://elasticsearch:9200
-      - STORAGE_TYPE=mem
-      - JAVA_OPTS=-Xms128m -Xmx256m
-    networks: 
-      - mynetwork
-
-  splunk:
-    image: splunk/splunk:latest
-    container_name: splunk
-    user: root
-    environment:
-      # This is the NEW variable you are missing
-      - SPLUNK_GENERAL_TERMS=--accept-sgt-current-at-splunk-com
-      # This is the standard license acceptance
-      - SPLUNK_START_ARGS=--accept-license
-      - SPLUNK_PASSWORD=yamamato
-      - SPLUNK_LAUNCH_CONF=OPTIMISTIC_ABOUT_FILE_LOCKING=1
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/postgres
+      KC_DB_SCHEMA: keycloak
+      KC_DB_USERNAME: postgres
+      KC_DB_PASSWORD: yamamato
+      KC_HOSTNAME_STRICT: false
+      # Initial Admin Credentials
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
     ports:
-      - "8000:8000" # Web UI
-      - "8088:8088" # HEC (for your Spring Boot logs)
-    volumes:
-      - /home/shreevardhan/splunk/Microservices/etc:/opt/splunk/etc
-      - /home/shreevardhan/splunk/Microservices/var:/opt/splunk/var
+      - "7080:8080"
     networks:
-      - mynetwork
-
+        - mynetwork
 
 
 networks:

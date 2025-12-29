@@ -14,7 +14,7 @@ import com.test.order.dto.OrderResponse;
 import com.test.order.service.OrderService;
 
 @RestController
-@RequestMapping(value = "order")
+@RequestMapping(value = "/order")
 public class OrderController {
 
 	

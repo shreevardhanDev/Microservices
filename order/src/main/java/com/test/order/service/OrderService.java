@@ -13,6 +13,7 @@ import com.test.order.dto.Payment;
 import com.test.order.dto.PaymentRequest;
 import com.test.order.dto.PaymentResponse;
 import com.test.order.listners.AuditListener;
+
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -85,7 +86,7 @@ public class OrderService {
 
     private Payment paymentMethod(PaymentRequest request, String url) {
         MultiValueMap<String, String> headers = new HttpHeaders();
-        headers.add("Authorization", "Bearer " + AuditListener.getJsonWebTocken());
+//        headers.add("Authorization", "Bearer " + AuditListener.getJsonWebTocken());
 
         RequestEntity<PaymentRequest> req = new RequestEntity<PaymentRequest>(request, headers, HttpMethod.POST, getUri(url));
 

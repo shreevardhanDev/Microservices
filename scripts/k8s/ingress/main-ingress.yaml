@@ -3,8 +3,7 @@ kind: Ingress
 metadata:
   name: microservices-ingress
   annotations:
-    # Essential for Nginx to handle routing correctly
-    nginx.ingress.kubernetes.io/rewrite-target: /
+     nginx.ingress.kubernetes.io/use-forwarded-headers: "true"
 spec:
   ingressClassName: nginx
   rules:

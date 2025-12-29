@@ -43,16 +43,6 @@
 		{
 			"name": "Create Order",
 			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{JWT_TOKEN}}",
-							"type": "string"
-						}
-					]
-				},
 				"method": "POST",
 				"header": [
 					{
@@ -137,8 +127,130 @@
 				"description": "Generated from cURL: curl --location 'http://localhost:8083/payment/createPayment' `\n--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzaHJlZSIsImV4cCI6MTcyNDc3Njg3MiwiaWF0IjoxNzI0Nzc1MDcyfQ.FMF87tikrY2okJrmoCR2ijgp-y8LZe3xelAMZPhx_Hw' `\n--header 'Content-Type: application/json' `\n--data '{\n    \"payment\": {\n        \"transactionId\": 4,\n        \"amount\": 2321.00,\n        \"description\": \"testing\"\n    }\n}'"
 			},
 			"response": []
+		},
+		{
+			"name": "Oauth2",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{JWT_TOKEN}}",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"payment\": {\n        \"transactionId\": 4,\n        \"amount\": 2321.00,\n        \"description\": \"testing\"\n    }\n}"
+				},
+				"url": {
+					"raw": "http://gateway.local/payment/createPayment",
+					"protocol": "http",
+					"host": [
+						"gateway",
+						"local"
+					],
+					"path": [
+						"payment",
+						"createPayment"
+					]
+				}
+			},
+			"response": []
 		}
 	],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": [
+			{
+				"key": "refreshRequestParams",
+				"value": [],
+				"type": "any"
+			},
+			{
+				"key": "tokenRequestParams",
+				"value": [],
+				"type": "any"
+			},
+			{
+				"key": "authRequestParams",
+				"value": [],
+				"type": "any"
+			},
+			{
+				"key": "challengeAlgorithm",
+				"value": "S256",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "shree",
+				"type": "string"
+			},
+			{
+				"key": "useBrowser",
+				"value": true,
+				"type": "boolean"
+			},
+			{
+				"key": "scope",
+				"value": "openid profile",
+				"type": "string"
+			},
+			{
+				"key": "redirect_uri",
+				"value": "https://oauth.pstmn.io/v1/callback",
+				"type": "string"
+			},
+			{
+				"key": "password",
+				"value": "shree",
+				"type": "string"
+			},
+			{
+				"key": "grant_type",
+				"value": "password_credentials",
+				"type": "string"
+			},
+			{
+				"key": "clientSecret",
+				"value": "VqNrk384VYN2qdGKF1bk2tjv3uFfDdgE",
+				"type": "string"
+			},
+			{
+				"key": "clientId",
+				"value": "spring-boot-app",
+				"type": "string"
+			},
+			{
+				"key": "authUrl",
+				"value": "http://keycloak-service:7080/realms/prototype-realm/protocol/openid-connect/auth",
+				"type": "string"
+			},
+			{
+				"key": "addTokenTo",
+				"value": "header",
+				"type": "string"
+			},
+			{
+				"key": "client_authentication",
+				"value": "header",
+				"type": "string"
+			},
+			{
+				"key": "accessTokenUrl",
+				"value": "http://keycloak-service:7080/realms/prototype-realm/protocol/openid-connect/token",
+				"type": "string"
+			}
+		]
+	},
 	"event": [
 		{
 			"listen": "prerequest",
@@ -147,42 +259,42 @@
 				"packages": {},
 				"requests": {},
 				"exec": [
-					"const loginRequest = {",
-					"  url: 'http://security.local/jwtauth/authenticate',",
-					"  method: 'POST',",
-					"  header: {",
-					"    'Content-Type': 'application/json'",
-					"  },",
-					"  body: {",
-					"    mode: 'raw',",
-					"    raw: JSON.stringify({",
-					"      // Pulling from environment variables",
-					"      \"username\": pm.environment.get(\"username\"), ",
-					"      \"password\": pm.environment.get(\"password\")",
-					"    })",
-					"  }",
-					"};",
+					"// const loginRequest = {",
+					"//   url: 'http://security.local/jwtauth/authenticate',",
+					"//   method: 'POST',",
+					"//   header: {",
+					"//     'Content-Type': 'application/json'",
+					"//   },",
+					"//   body: {",
+					"//     mode: 'raw',",
+					"//     raw: JSON.stringify({",
+					"//       // Pulling from environment variables",
+					"//       \"username\": pm.environment.get(\"username\"), ",
+					"//       \"password\": pm.environment.get(\"password\")",
+					"//     })",
+					"//   }",
+					"// };",
 					"",
-					"// Send the request before the main call starts",
-					"pm.sendRequest(loginRequest, (error, response) => {",
-					"    if (error) {",
-					"        console.error(\"Login failed:\", error);",
-					"    } else {",
-					"        try {",
-					"            const jsonData = response.json();",
-					"            const token = jsonData.jwt;",
+					"// // Send the request before the main call starts",
+					"// pm.sendRequest(loginRequest, (error, response) => {",
+					"//     if (error) {",
+					"//         console.error(\"Login failed:\", error);",
+					"//     } else {",
+					"//         try {",
+					"//             const jsonData = response.json();",
+					"//             const token = jsonData.jwt;",
 					"            ",
-					"            if (token) {",
-					"                pm.environment.set(\"JWT_TOKEN\", token);",
-					"                console.log(\"Pre-request login successful for user: \" + pm.environment.get(\"DB_USERNAME\"));",
-					"            } else {",
-					"                console.error(\"Login response did not contain a JWT.\");",
-					"            }",
-					"        } catch (e) {",
-					"            console.error(\"Could not parse login response:\", e);",
-					"        }",
-					"    }",
-					"});"
+					"//             if (token) {",
+					"//                 pm.environment.set(\"JWT_TOKEN\", token);",
+					"//                 console.log(\"Pre-request login successful for user: \" + pm.environment.get(\"DB_USERNAME\"));",
+					"//             } else {",
+					"//                 console.error(\"Login response did not contain a JWT.\");",
+					"//             }",
+					"//         } catch (e) {",
+					"//             console.error(\"Could not parse login response:\", e);",
+					"//         }",
+					"//     }",
+					"// });"
 				]
 			}
 		},

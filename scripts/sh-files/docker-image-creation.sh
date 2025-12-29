@@ -11,9 +11,9 @@ cd ../cloud-config-servier
 docker build -t cloud-config-servier ./
 echo "completed building docker image cloud-config-servier"
 
-cd ../eureka-server
-docker build -t eureka-server ./
-echo "completed building docker image eureka-server"
+#cd ../eureka-server
+#docker build -t eureka-server ./
+#echo "completed building docker image eureka-server"
 
 cd ../gateway
 docker build -t gateway ./
@@ -27,6 +27,6 @@ cd ../payment
 docker build -t payment ./
 echo "completed building docker image payment"
 
-cd ../spring-security-jwt
-docker build -t spring-security-jwt ./
-echo "completed building docker image spring-security-jwt"
+#cd ../spring-security-jwt
+#docker build -t spring-security-jwt ./
+#echo "completed building docker image spring-security-jwt"

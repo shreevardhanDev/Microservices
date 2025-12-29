@@ -1,23 +1,20 @@
 server:
   port: 8081
 
-management:
-  health:
-    circuitbreakers:
-      enabled: true
-    ratelimiters:
-      enabled: true
-  endpoints: 
-    web:
-      exposure:
-        include:
-        - '*'
-  endpoint:
-    health:
-      show-details: always
-
-     
 com:
   test:
     payment:
       controller: "http://payment-service/payment"
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # This is the only line they really need!
+          issuer-uri: http://keycloak-service:7080/realms/prototype-realm
+          jwk-set-uri: http://keycloak-service:7080/realms/prototype-realm/protocol/openid-connect/certs
+          # Add this to bypass the "aud" check in YAML instead of Java code
+          audiences:
+            - account
+            - spring-boot-app
