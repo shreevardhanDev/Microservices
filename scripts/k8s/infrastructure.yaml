@@ -1,0 +1,102 @@
+# ==========================================
+# 1. POSTGRESQL (Local Docker)
+# ==========================================
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres      # Matches: jdbc:postgresql://postgres:5432/
+spec:
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: postgres
+subsets:
+  - addresses:
+      - ip: 172.17.0.1
+    ports:
+      - port: 5432
+
+---
+# ==========================================
+# 2. ZIPKIN TRACING (Local Docker)
+# ==========================================
+apiVersion: v1
+kind: Service
+metadata:
+  name: zipkin-server
+spec:
+  ports:
+    - protocol: TCP
+      port: 80          # Map to 80 so Java uses http://zipkin-server
+      targetPort: 9411  # Your Docker Zipkin port
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: zipkin-server
+subsets:
+  - addresses:
+      - ip: 172.17.0.1
+    ports:
+      - port: 9411
+
+---
+# ==========================================
+# 3. OPEN TELEMETRY COLLECTOR (Local Docker)
+# ==========================================
+apiVersion: v1
+kind: Service
+metadata:
+  name: otel-collector
+spec:
+  ports:
+    - name: grpc
+      protocol: TCP
+      port: 4317
+      targetPort: 4317
+    - name: http
+      protocol: TCP
+      port: 4318      # Matches: http://otel-collector:4318/v1/traces
+      targetPort: 4318
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: otel-collector
+subsets:
+  - addresses:
+      - ip: 172.17.0.1
+    ports:
+      - name: grpc
+        port: 4317
+      - name: http
+        port: 4318
+
+---
+# ==========================================
+# 4. SPLUNK HEC (Local Docker)
+# ==========================================
+apiVersion: v1
+kind: Service
+metadata:
+  name: splunk-server
+spec:
+  ports:
+    - protocol: TCP
+      port: 8088
+      targetPort: 8088
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: splunk-server
+subsets:
+  - addresses:
+      - ip: 172.17.0.1
+    ports:
+      - port: 8088

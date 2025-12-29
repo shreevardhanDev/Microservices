@@ -26,12 +26,11 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8061/jwtauth/authenticate",
-					"protocol": "http",
+					"raw": "security.local/jwtauth/authenticate",
 					"host": [
-						"localhost"
+						"security",
+						"local"
 					],
-					"port": "8061",
 					"path": [
 						"jwtauth",
 						"authenticate"
@@ -68,7 +67,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"order\": {\n        \"description\": \"working\"\n    },\n    \"payment\": {\n        \"transactionId\": 1,\n        \"amount\": 2321.00,\n        \"description\": \"testing\"\n    }\n}",
+					"raw": "{\n    \"order\": {\n        \"description\": \"lolpatrol\"\n    },\n    \"payment\": {\n        \"transactionId\": 1,\n        \"amount\": 2321.00,\n        \"description\": \"lolpatrol\"\n    }\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -76,12 +75,11 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8083/order/createOrder",
-					"protocol": "http",
+					"raw": "gateway.local/order/createOrder",
 					"host": [
-						"localhost"
+						"gateway",
+						"local"
 					],
-					"port": "8083",
 					"path": [
 						"order",
 						"createOrder"
@@ -126,12 +124,11 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8083/payment/createPayment",
-					"protocol": "http",
+					"raw": "gateway.local/payment/createPayment",
 					"host": [
-						"localhost"
+						"gateway",
+						"local"
 					],
-					"port": "8083",
 					"path": [
 						"payment",
 						"createPayment"
@@ -151,7 +148,7 @@
 				"requests": {},
 				"exec": [
 					"const loginRequest = {",
-					"  url: 'http://localhost:8061/jwtauth/authenticate',",
+					"  url: 'http://security.local/jwtauth/authenticate',",
 					"  method: 'POST',",
 					"  header: {",
 					"    'Content-Type': 'application/json'",

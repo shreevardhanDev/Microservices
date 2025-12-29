@@ -1,11 +1,11 @@
 spring:
   cloud:
     config:
-      name: ${spring.application.name},COMMON-DATA-SOURCE,COMMON-PROPERTIES,EUREKA-CLIENT-PROP,ZIPKIN-PROP,LOGGER-PROP
+      name: ${spring.application.name},common-data-source,common-properties,eureka-client-prop,zipkin-prop,logger-prop
       uri:
-      - http://cloud-config-server:8999
+      - http://cloud-config-servier
   application:
-    name: ORDER-SERVICE
+    name: order-service
 
 management:
   endpoints:

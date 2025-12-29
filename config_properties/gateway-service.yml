@@ -39,7 +39,7 @@ spring:
     gateway:
       routes:
         - id: order
-          uri: lb://ORDER-SERVICE
+          uri: http://order-service
           filters:
             - name: CircuitBreaker
               args:
@@ -48,7 +48,7 @@ spring:
           predicates:
             - Path=/order/**
         - id: payment
-          uri: lb://PAYMENT-SERVICE
+          uri: http://payment-service
           filters:
             - name: CircuitBreaker
               args:
@@ -57,7 +57,7 @@ spring:
           predicates:
             - Path=/payment/**
         - id: jwtauth
-          uri: lb://SECURITY-JWT
+          uri: http://security-jwt
           filters:
             - name: CircuitBreaker
               args:

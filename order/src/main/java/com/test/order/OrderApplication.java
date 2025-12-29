@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 @EnableJpaRepositories(basePackages = "com.*")
 @EntityScan(basePackages = "com.*")
-@EnableDiscoveryClient
+//@EnableDiscoveryClient
 @SpringBootApplication(scanBasePackages = "com.test.*")
 @EnableAutoConfiguration(exclude = KafkaAutoConfiguration.class)
 //@EnableKafka

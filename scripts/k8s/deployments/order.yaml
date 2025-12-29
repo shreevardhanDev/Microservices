@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order
+  template:
+    metadata:
+      labels:
+        app: order
+    spec:
+      hostAliases:
+      - ip: "172.17.0.1"
+        hostnames: ["host.docker.internal"]
+      containers:
+      - name: order
+        image: order:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8081

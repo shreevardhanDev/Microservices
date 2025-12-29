@@ -2,7 +2,14 @@ Install gradle 9.0
 java 25
 
 database creation in docker
-docker run --name postgres --network mynetwork -e POSTGRES_PASSWORD=yamamato -p 5432:5432 -v /media/shreevardhan/D/databases/postgres/Microservices/data:/var/lib/postgresql/data -d postgres
+docker run -d \
+  --name postgres \
+  --network mynetwork \
+  -p 5432:5432 \
+  -e POSTGRES_PASSWORD=yamamato \
+  -e PGDATA=/var/lib/postgresql/data/pgdata \
+  -v /media/shreevardhan/D/databases/postgres/Microservices/data:/var/lib/postgresql/data \
+  postgres
 
 
 change data source url to local ipconfig url on COMMON-DATA-SOURCE.yml
@@ -18,3 +25,12 @@ git add --renormalize $(find . -name "*.sh" "*Dockerfile")
 
 username: shree
 password to be saved in database'{bcrypt}$2a$10$NOtvXNdcmPymn6iSJSBdmefLnFADCu0GeMMCSBRkCa7W1Mn7z5vGq' = 'shree'
+
+
+All required files to start and run containers are provided in the scripts folder. 
+docker composes, script files to start them, kubernetes files to create kind cluster and run all the services.
+
+For splunk, need to create the token required for ote-config.yaml using the menu Settings -> Data Inputs -> HTTP Event Collector -> New Token
+select history, main and summary indexes. but only main for the default index.
+
+once the token is generated copy that to otel-config.yaml file under docker-compose folder and copy the file to otel container and restart it.

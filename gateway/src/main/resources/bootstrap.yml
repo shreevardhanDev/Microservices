@@ -1,7 +1,7 @@
 spring:
    application :
-      name: GATEWAY-SERVICE
+      name: gateway-service
    cloud:
      config:
-       name: ${spring.application.name},COMMON-DATA-SOURCE,COMMON-PROPERTIES,EUREKA-CLIENT-PROP
-       uri: http://cloud-config-server:8999
+       name: ${spring.application.name},common-data-source,common-properties,eureka-client-prop
+       uri: http://cloud-config-servier

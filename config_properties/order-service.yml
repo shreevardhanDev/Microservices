@@ -20,4 +20,4 @@ management:
 com:
   test:
     payment:
-      controller: "http://PAYMENT-SERVICE/payment"
+      controller: "http://payment-service/payment"

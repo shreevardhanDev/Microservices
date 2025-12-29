@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: security-jwt-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: security-jwt
+  template:
+    metadata:
+      labels:
+        app: security-jwt
+    spec:
+      hostAliases:
+      - ip: "172.17.0.1"
+        hostnames: ["host.docker.internal"]
+      containers:
+      - name: security-jwt
+        image: spring-security-jwt:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8061

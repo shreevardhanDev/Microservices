@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @EnableJpaRepositories(basePackages = "com.*")
 @EntityScan(basePackages = "com.*")
-@EnableDiscoveryClient
+//@EnableDiscoveryClient
 @EnableWebMvc
 @EnableAutoConfiguration(exclude = KafkaAutoConfiguration.class)
 @SpringBootApplication
