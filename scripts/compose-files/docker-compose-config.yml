@@ -9,15 +9,20 @@ services:
   #   networks:
   #     - mynetwork
 
-  cloud_configserver:
+  cloud-config-servier:
     image: cloud-config-servier
-    container_name: cloud-config-server
-    restart: on-failure
+    container_name: cloud-config-servier
+    restart: no
     ports:
       - "8999:8999"
     networks: 
       - mynetwork
-
+    volumes:
+      # Link your local folder to the path defined in your YAML
+      - /media/shreevardhan/E/projects/Microservices/config_properties/:/app/config_properties
+    environment:
+       # THIS IS THE MISSING KEY
+       - SPRING_PROFILES_ACTIVE=native
 networks:
   mynetwork:
     external: true

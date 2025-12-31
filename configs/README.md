@@ -40,3 +40,7 @@ For splunk, need to create the token required for ote-config.yaml using the menu
 select history, main and summary indexes. but only main for the default index.
 
 once the token is generated copy that to otel-config.yaml file under docker-compose folder and copy the file to otel container and restart it.
+docker cp otel-config.yaml otel-collector:/etc/otel/otel-config.yaml
+
+start python -m http.server 9898 in config properties folder.
+point config server to that 

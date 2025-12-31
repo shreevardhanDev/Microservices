@@ -1,17 +1,17 @@
 services:
-  spring_security_jwt:
-    image: spring-security-jwt
-    container_name: spring-security-jwt
-    restart: on-failure
-    ports:
-      - "8061:8061"
-    networks: 
-      - mynetwork
+#  spring_security_jwt:
+#    image: spring-security-jwt
+#    container_name: spring-security-jwt
+#    restart: no
+#    ports:
+#      - "8061:8061"
+#    networks: 
+#      - mynetwork
 
   gateway:
     image: gateway
     container_name: gateway
-    restart: on-failure
+    restart: no
     ports:
       - "8083:8083"
     networks: 
@@ -22,7 +22,7 @@ services:
   payment:
     image: payment
     container_name: payment
-    restart: on-failure
+    restart: no
     ports:
       - "8082:8082"
     networks: 
@@ -32,7 +32,7 @@ services:
   order:
     image: order
     container_name: order
-    restart: on-failure
+    restart: no
     ports:
       - "8081:8081"
     depends_on:

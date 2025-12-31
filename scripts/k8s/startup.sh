@@ -6,7 +6,7 @@ kind load docker-image gateway:latest
 kind load docker-image order:latest
 kind load docker-image payment:latest
 #kind load docker-image spring-security-jwt:latest
-kind load docker-image cloud-config-servier:latest
+#kind load docker-image cloud-config-servier:latest
 
 # 1. Apply Infrastructure (Postgres, Otel, Zipkin, Splunk)
 # Path matches your root 'k8s/' folder

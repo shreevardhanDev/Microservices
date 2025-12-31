@@ -1,16 +1,16 @@
 services:
 
-#  otel-collector:
-#    image: otel/opentelemetry-collector-contrib:latest
-#    container_name: otel-collector
-#    command: ["--config=/etc/otelcol/config.yaml"]
-#    volumes:
-#      - ./otel-config.yaml:/etc/otelcol/config.yaml
-#    ports:
-#      - "4317:4317" # OTLP gRPC
-#      - "4318:4318" # OTLP HTTP
-#    networks:
-#      - mynetwork
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:latest
+    container_name: otel-collector
+    command: ["--config=/etc/otelcol/config.yaml"]
+    volumes:
+      - ./otel-config.yaml:/etc/otelcol/config.yaml
+    ports:
+      - "4317:4317" # OTLP gRPC
+      - "4318:4318" # OTLP HTTP
+    networks:
+      - mynetwork
 #
 #  zipkin_server:
 #    image: openzipkin/zipkin:latest
@@ -49,24 +49,24 @@ services:
 #    networks:
 #      - mynetwork
 
-  keycloak:
-    image: quay.io/keycloak/keycloak:24.0.0
-    container_name: keycloak-service
-    command: start-dev
-    environment:
-      KC_DB: postgres
-      KC_DB_URL: jdbc:postgresql://postgres:5432/postgres
-      KC_DB_SCHEMA: keycloak
-      KC_DB_USERNAME: postgres
-      KC_DB_PASSWORD: yamamato
-      KC_HOSTNAME_STRICT: false
-      # Initial Admin Credentials
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
-    ports:
-      - "7080:8080"
-    networks:
-        - mynetwork
+#  keycloak:
+#    image: quay.io/keycloak/keycloak:24.0.0
+#    container_name: keycloak-service
+#    command: start-dev
+#    environment:
+#      KC_DB: postgres
+#      KC_DB_URL: jdbc:postgresql://postgres:5432/postgres
+#      KC_DB_SCHEMA: keycloak
+#      KC_DB_USERNAME: postgres
+#      KC_DB_PASSWORD: yamamato
+#      KC_HOSTNAME_STRICT: false
+#      # Initial Admin Credentials
+#      KEYCLOAK_ADMIN: admin
+#      KEYCLOAK_ADMIN_PASSWORD: admin
+#    ports:
+#      - "7080:8080"
+#    networks:
+#        - mynetwork
 
 
 networks:

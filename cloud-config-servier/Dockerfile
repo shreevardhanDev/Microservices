@@ -1,12 +1,10 @@
-FROM config_properties as configs
-
 FROM ibm-semeru-runtimes:open-jdk-25.0.1_8-jre-jammy
 
 WORKDIR /app
 
 COPY build/libs/ target
 
-COPY --from=configs /config_properties /app/config_properties
+#COPY --from=configs /config_properties /app/config_properties
 
 # Get the JAR file dynamically using 'find' command and set it as an environment variable
 RUN export APP_JAR=$(find target -name "*.jar" | grep -v plain) && \
