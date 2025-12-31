@@ -19,7 +19,7 @@ services:
       - mynetwork
     volumes:
       # Link your local folder to the path defined in your YAML
-      - /media/shreevardhan/E/projects/Microservices/config_properties/:/app/config_properties
+      - /run/media/shreevardhan/E/projects/Microservices/config_properties/:/app/config_properties
     environment:
        # THIS IS THE MISSING KEY
        - SPRING_PROFILES_ACTIVE=native

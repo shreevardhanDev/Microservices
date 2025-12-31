@@ -5,7 +5,7 @@ services:
 #    restart: no
 #    ports:
 #      - "8061:8061"
-#    networks: 
+#    networks:
 #      - mynetwork
 
   gateway:
@@ -32,7 +32,7 @@ services:
   order:
     image: order
     container_name: order
-    restart: no
+    restart: on-failure
     ports:
       - "8081:8081"
     depends_on:

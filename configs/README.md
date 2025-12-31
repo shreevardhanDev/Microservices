@@ -44,3 +44,4 @@ docker cp otel-config.yaml otel-collector:/etc/otel/otel-config.yaml
 
 start python -m http.server 9898 in config properties folder.
 point config server to that 
+pointing is nothing but just replacing the https url at the place of file:/// path. nothing complex

@@ -17,7 +17,7 @@ exporters:
   # 2. Send data to Splunk HEC
   splunk_hec:
     endpoint: "https://splunk:8088/services/collector"
-    token: "71fef033-8558-4f12-945a-ddd164acf3de" # Your token from earlier
+    token: "45b46016-603e-4f7a-a5a6-fa3b08012d30" # Your token from earlier
     index: "main"
     source: "otel"
     # Note: Use tls: insecure: true if testing locally without HTTPS

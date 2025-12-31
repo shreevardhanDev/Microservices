@@ -19,8 +19,8 @@ kubectl apply -f services/
 
 # 3. Start the Config Servier Deployment
 # Filename matches your 'config-servier.yaml'
-echo "Starting Config Servier..."
-kubectl apply -f deployments/config-servier.yaml
+#echo "Starting Config Servier..."
+#kubectl apply -f deployments/config-servier.yaml
 
 # 4. Wait for Config Servier Pod to be Ready
 # Assuming metadata name is 'config-servier-deployment' for consistency

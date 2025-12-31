@@ -147,7 +147,7 @@ metadata:
   name: cloud-config-servier
 subsets:
   - addresses:
-      - ip: 172.17.0.1
+      - ip: 172.19.0.1
     ports:
       - port: 8999
 

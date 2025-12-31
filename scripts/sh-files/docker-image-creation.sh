@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd ../
+
 # docker build -t kafka ./
 # echo "completed building docker image kafka"
 
