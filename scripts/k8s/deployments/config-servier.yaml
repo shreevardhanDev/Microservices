@@ -1,24 +1,24 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: config-servier-deployment
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: config-servier
-  template:
-    metadata:
-      labels:
-        app: config-servier
-    spec:
-      hostAliases:
-      - ip: "172.17.0.1"           # The actual IP of your host/Docker bridge
-        hostnames: 
-        - "host.docker.internal"   # The name your code uses to find the host
-      containers:
-      - name: config-servier
-        image: cloud-config-servier:latest
-        imagePullPolicy: IfNotPresent
-        ports:
-        - containerPort: 8999
+#apiVersion: apps/v1
+#kind: Deployment
+#metadata:
+#  name: config-servier-deployment
+#spec:
+#  replicas: 1
+#  selector:
+#    matchLabels:
+#      app: config-servier
+#  template:
+#    metadata:
+#      labels:
+#        app: config-servier
+#    spec:
+#      hostAliases:
+#      - ip: "172.17.0.1"           # The actual IP of your host/Docker bridge
+#        hostnames: 
+#        - "host.docker.internal"   # The name your code uses to find the host
+#      containers:
+#      - name: config-servier
+#        image: cloud-config-servier:latest
+#        imagePullPolicy: IfNotPresent
+#        ports:
+#        - containerPort: 8999

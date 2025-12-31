@@ -10,5 +10,7 @@ spring:
     config:
       server:
         native:
+          watch:
+            enabled: true
           search-locations:
-          -  file:///app/config_properties
+            -  file:/app/config_properties/

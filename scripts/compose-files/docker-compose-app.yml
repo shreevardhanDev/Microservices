@@ -1,12 +1,12 @@
 services:
-  spring_security_jwt:
-    image: spring-security-jwt
-    container_name: spring-security-jwt
-    restart: on-failure
-    ports:
-      - "8061:8061"
-    networks: 
-      - mynetwork
+#  spring_security_jwt:
+#    image: spring-security-jwt
+#    container_name: spring-security-jwt
+#    restart: on-failure
+#    ports:
+#      - "8061:8061"
+#    networks: 
+#      - mynetwork
 
   gateway:
     image: gateway

@@ -3,13 +3,13 @@
 # docker build -t kafka ./
 # echo "completed building docker image kafka"
 
-cd ../../config_properties
-docker build -t config_properties ./
-echo "completed building docker image properties"
-
-cd ../cloud-config-servier
-docker build -t cloud-config-servier ./
-echo "completed building docker image cloud-config-servier"
+#cd ../../config_properties
+#docker build -t config_properties ./
+#echo "completed building docker image properties"
+#
+#cd ../cloud-config-servier
+#docker build -t cloud-config-servier ./
+#echo "completed building docker image cloud-config-servier"
 
 #cd ../eureka-server
 #docker build -t eureka-server ./
