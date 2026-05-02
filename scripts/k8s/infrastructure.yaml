@@ -17,7 +17,7 @@ metadata:
   name: postgres
 subsets:
   - addresses:
-      - ip: 172.17.0.1
+      - ip: 172.19.0.1
     ports:
       - port: 5432
 
@@ -41,7 +41,7 @@ metadata:
   name: zipkin-server
 subsets:
   - addresses:
-      - ip: 172.17.0.1
+      - ip: 172.19.0.1
     ports:
       - port: 9411
 
@@ -70,7 +70,7 @@ metadata:
   name: otel-collector
 subsets:
   - addresses:
-      - ip: 172.17.0.1
+      - ip: 172.19.0.1
     ports:
       - name: grpc
         port: 4317
@@ -97,7 +97,7 @@ metadata:
   name: splunk-server
 subsets:
   - addresses:
-      - ip: 172.17.0.1
+      - ip: 172.19.0.1
     ports:
       - port: 8088
 
@@ -122,7 +122,7 @@ metadata:
   name: keycloak-service
 subsets:
   - addresses:
-      - ip: 172.17.0.1
+      - ip: 172.19.0.1
     ports:
       - port: 7080
 
