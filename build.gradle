@@ -1,0 +1,13 @@
+// Root build.gradle - can be mostly empty
+plugins {
+    // just a container project
+}
+
+// Optional: shared config for all subprojects
+subprojects {
+    apply plugin: 'java'
+
+    repositories {
+        mavenCentral()
+    }
+}

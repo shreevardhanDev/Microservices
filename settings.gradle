@@ -1,0 +1,11 @@
+// settings.gradle in repo root
+rootProject.name = 'Microservices'
+
+// Include all your microservices
+include 'cloud-config-servier'
+include 'gateway'
+include 'payment'
+include 'order'
+
+// You can also include nested ones
+// include 'services:auth'
