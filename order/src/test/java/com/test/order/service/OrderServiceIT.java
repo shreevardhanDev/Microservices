@@ -16,7 +16,7 @@
 //import org.springframework.http.ResponseEntity;
 //import org.springframework.web.client.RestTemplate;
 //
-//import com.test.order.dto.Order;
+//import com.test.order.entities.Order;
 //import com.test.order.dto.OrderRequest;
 //import com.test.order.dto.OrderResponse;
 //import com.test.order.dto.Payment;

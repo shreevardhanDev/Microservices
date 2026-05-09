@@ -1,4 +1,4 @@
-package com.entities;
+package com.test.payment.entities;
 
 import java.io.Serializable;
 

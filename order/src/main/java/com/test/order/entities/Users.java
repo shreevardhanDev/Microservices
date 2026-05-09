@@ -1,4 +1,4 @@
-package com.entities;
+package com.test.order.entities;
 
 import java.io.Serializable;
 

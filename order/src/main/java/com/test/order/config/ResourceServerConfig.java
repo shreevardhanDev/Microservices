@@ -1,4 +1,4 @@
-package com.test.payment;
+package com.test.order.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

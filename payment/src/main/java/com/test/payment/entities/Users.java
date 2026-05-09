@@ -1,4 +1,4 @@
-package com.test.order.dto;
+package com.test.payment.entities;
 
 import java.io.Serializable;
 
@@ -8,18 +8,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
-@Table(name = "orders")
-public class Order implements Serializable {
+@Table(name = "users")
+public class Users implements Serializable {
 
 	/**
 	 * 
@@ -31,7 +25,15 @@ public class Order implements Serializable {
 	@Column(name = "id")
 	private Long id;
 
-	@Column(name = "description")
-	private String description;
+	@Column(name = "name")
+	private String name;
 
+	@Column(name = "role")
+	private String role;
+
+	@Column(name = "employee_hrms_id")
+	private String employeeHrmsId;
+
+	@Column(name = "password")
+	private String password;
 }

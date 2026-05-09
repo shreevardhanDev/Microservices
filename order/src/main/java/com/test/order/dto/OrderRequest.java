@@ -2,6 +2,7 @@ package com.test.order.dto;
 
 import java.io.Serializable;
 
+import com.test.order.entities.Order;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

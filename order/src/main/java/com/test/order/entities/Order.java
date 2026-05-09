@@ -1,4 +1,4 @@
-package com.entities;
+package com.test.order.entities;
 
 import java.io.Serializable;
 
@@ -8,12 +8,18 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name = "users")
-public class Users implements Serializable {
+@Table(name = "orders")
+public class Order implements Serializable {
 
 	/**
 	 * 
@@ -25,15 +31,7 @@ public class Users implements Serializable {
 	@Column(name = "id")
 	private Long id;
 
-	@Column(name = "name")
-	private String name;
+	@Column(name = "description")
+	private String description;
 
-	@Column(name = "role")
-	private String role;
-
-	@Column(name = "employee_hrms_id")
-	private String employeeHrmsId;
-
-	@Column(name = "password")
-	private String password;
 }

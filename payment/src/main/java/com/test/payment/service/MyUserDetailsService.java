@@ -1,4 +1,4 @@
-package com.test.order;
+package com.test.payment.service;
 
 import java.util.Arrays;
 
@@ -11,9 +11,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.entities.UserDao;
-import com.entities.Users;
-
+import com.test.payment.entities.Users;
+import com.test.payment.repository.UserDao;
 
 @Service
 public class MyUserDetailsService implements UserDetailsService {

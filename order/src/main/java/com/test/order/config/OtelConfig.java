@@ -1,4 +1,4 @@
-package com.test.payment;
+package com.test.order.config;
 
 import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.instrumentation.logback.appender.v1_0.OpenTelemetryAppender;

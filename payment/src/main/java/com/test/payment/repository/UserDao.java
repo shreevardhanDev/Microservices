@@ -1,11 +1,11 @@
-package com.repository;
+package com.test.payment.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.entities.Users;
+import com.test.payment.entities.Users;
 
 @Repository
 public interface UserDao extends JpaRepository<Users, Long> {

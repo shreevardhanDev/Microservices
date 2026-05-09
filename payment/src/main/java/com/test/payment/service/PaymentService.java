@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.repository.PaymentDao;
+import com.test.payment.repository.PaymentDao;
 import com.test.payment.dto.PaymentRequest;
 import com.test.payment.dto.PaymentResponse;
 
